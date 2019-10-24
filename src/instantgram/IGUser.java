@@ -18,7 +18,7 @@ import java.util.List;
  * Whenever a user post content it is notified to all of it's followers.
  *
  * @author Ignacio Slater Muñoz
- * @version 0.1b4
+ * @version 1.0rc1
  * @since 0.1
  */
 public class IGUser {
@@ -51,16 +51,21 @@ public class IGUser {
    *     the user to follow
    */
   public void follow(final IGUser igUser) {
-    igUser.addFollower(this);
+    igUser.followers.add(this);
+
+    igUser.postNotification.addPropertyChangeListener(new PostsHandler(this));
+    igUser.followNotification
+        .firePropertyChange(new PropertyChangeEvent(this, "New follower", feed, this.name));
   }
 
-  private void addFollower(final IGUser igUser) {
-    followers.add(igUser);
-    postNotification.addPropertyChangeListener(new PostsHandler(igUser));
-
-    followNotification
-        .firePropertyChange(new PropertyChangeEvent(this, "New follower", feed, igUser.getName()));
+  /**
+   * @return the user's name
+   */
+  public String getName() {
+    return name;
   }
+
+  // region : getters/setters
 
   /**
    * Posts a new message to be shared to this user's followers.
@@ -70,15 +75,6 @@ public class IGUser {
    */
   public void post(final String message) {
     postNotification.firePropertyChange(new PropertyChangeEvent(this, "New post", "", message));
-  }
-
-
-  // region : getters/setters
-  /**
-   * @return the user's name
-   */
-  public String getName() {
-    return name;
   }
 
   /**

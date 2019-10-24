@@ -1,6 +1,7 @@
 package instantgram;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * @author Ignacio Slater Muñoz
- * @version 0.1b4
+ * @version 1.0rc1
  * @since 0.1
  */
 public class IGUserTest {
@@ -62,6 +63,9 @@ public class IGUserTest {
         ELON_MUSK + " wasn't notified of his new follow: " + CAROL_DANCE);
     assertTrue(jadenSmith.getFeed().contains(ELON_MUSK + " is now following you!"),
         JADEN_SMITH + " wasn't notified of his new follow: " + ELON_MUSK);
+
+    assertFalse(carolDance.getFeed().contains(ELON_MUSK + " is now following you!"),
+        CAROL_DANCE + " thinks " + ELON_MUSK + " is following him");
   }
 
   @Test
@@ -77,10 +81,13 @@ public class IGUserTest {
     elonMusk.post(elonMsg);
 
     assertTrue(elonMusk.getFeed().contains(jadenMsg),
-        ELON_MUSK + " wasn't notified of " + JADEN_SMITH + "'s mew post");
+        ELON_MUSK + " wasn't notified of " + JADEN_SMITH + "'s new post");
     assertTrue(carolDance.getFeed().contains(elonMsg),
-        CAROL_DANCE + " wasn't notified of " + ELON_MUSK + "'s mew post");
+        CAROL_DANCE + " wasn't notified of " + ELON_MUSK + "'s new post");
     assertTrue(jadenSmith.getFeed().contains(elonMsg),
-        JADEN_SMITH + " wasn't notified of " + ELON_MUSK + "'s mew post");
+        JADEN_SMITH + " wasn't notified of " + ELON_MUSK + "'s new post");
+
+    assertFalse(carolDance.getFeed().contains(jadenMsg),
+        CAROL_DANCE + " was notified of " + JADEN_SMITH + "'s new post");
   }
 }
