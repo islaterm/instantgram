@@ -6,21 +6,14 @@ import java.beans.PropertyChangeListener;
 
 /**
  * @author Ignacio Slater Muñoz
- * @version 0.1b3
- * @since 0.1
+ * @since 0.1b4
  */
-public class followsHandler implements PropertyChangeListener {
+public class PostsHandler implements PropertyChangeListener {
 
-  private final IGUser subscriber;
+  private IGUser subscriber;
 
-  /**
-   * Creates a new
-   *
-   * @param subscriber
-   *     The object to be notified of the change.
-   */
-  public followsHandler(final IGUser subscriber) {
-    this.subscriber = subscriber;
+  public PostsHandler(final IGUser igUser) {
+    subscriber = igUser;
   }
 
   /**
@@ -32,6 +25,6 @@ public class followsHandler implements PropertyChangeListener {
    */
   @Override
   public void propertyChange(final PropertyChangeEvent evt) {
-    subscriber.addToFeed(evt.getNewValue() + " is now following you!");
+    subscriber.addToFeed((String) evt.getNewValue());
   }
 }

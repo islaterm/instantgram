@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * @author Ignacio Slater Muñoz
- * @version 0.1b1
+ * @version 0.1b4
  * @since 0.1
  */
 public class IGUserTest {
@@ -50,11 +50,37 @@ public class IGUserTest {
   public void testFollow() {
     carolDance.follow(elonMusk);
     jadenSmith.follow(elonMusk);
+    elonMusk.follow(jadenSmith);
+
     assertEquals(2, elonMusk.getFollowers().size());
     assertTrue(elonMusk.getFollowers().containsAll(List.of(carolDance, jadenSmith)));
+    assertTrue(jadenSmith.getFollowers().contains(elonMusk));
+
     assertTrue(elonMusk.getFeed().contains(CAROL_DANCE + " is now following you!"),
         ELON_MUSK + " wasn't notified of his new follow: " + CAROL_DANCE);
     assertTrue(elonMusk.getFeed().contains(JADEN_SMITH + " is now following you!"),
         ELON_MUSK + " wasn't notified of his new follow: " + CAROL_DANCE);
+    assertTrue(jadenSmith.getFeed().contains(ELON_MUSK + " is now following you!"),
+        JADEN_SMITH + " wasn't notified of his new follow: " + ELON_MUSK);
+  }
+
+  @Test
+  public void testPost() {
+    final String
+        elonMsg = "Technically, alcohol is a solution",
+        jadenMsg = "How can mirrors be real if our eyes aren't real.";
+    carolDance.follow(elonMusk);
+    jadenSmith.follow(elonMusk);
+    elonMusk.follow(jadenSmith);
+
+    jadenSmith.post(jadenMsg);
+    elonMusk.post(elonMsg);
+
+    assertTrue(elonMusk.getFeed().contains(jadenMsg),
+        ELON_MUSK + " wasn't notified of " + JADEN_SMITH + "'s mew post");
+    assertTrue(carolDance.getFeed().contains(elonMsg),
+        CAROL_DANCE + " wasn't notified of " + ELON_MUSK + "'s mew post");
+    assertTrue(jadenSmith.getFeed().contains(elonMsg),
+        JADEN_SMITH + " wasn't notified of " + ELON_MUSK + "'s mew post");
   }
 }
