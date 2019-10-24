@@ -57,16 +57,7 @@ public class IGUser {
     igUser.followNotification
         .firePropertyChange(new PropertyChangeEvent(this, "New follower", feed, this.name));
   }
-
-  /**
-   * @return the user's name
-   */
-  public String getName() {
-    return name;
-  }
-
-  // region : getters/setters
-
+  
   /**
    * Posts a new message to be shared to this user's followers.
    *
@@ -75,6 +66,15 @@ public class IGUser {
    */
   public void post(final String message) {
     postNotification.firePropertyChange(new PropertyChangeEvent(this, "New post", "", message));
+  }
+
+  // region : getters/setters
+
+  /**
+   * @return the user's name
+   */
+  public String getName() {
+    return name;
   }
 
   /**
